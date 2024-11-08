@@ -14,12 +14,21 @@ mongoose.connect("mongodb+srv://satishuppala:Rksatish@cluster0.i4hwuhn.mongodb.n
     console.error('MongoDB connection error', err);
   });
   
-  app.post("/login",(req,res)=>{
+  app.post("/register",(req,res)=>{
     DataModels.create(req.body)
-    .then(login=> {
-        console.log(login);
-  return res.json(login)}
-)
+    .then(register=> {
+      console.log(register);
+  return res.json(register)
+  })
+    .catch(err=>res.json(err))
+  })
+
+  app.post("/login",(req,res)=>{
+    DataModels.find(req.body)
+    .then(user=> {
+      console.log(user);
+  return res.json(user)
+  })
     .catch(err=>res.json(err))
   })
 
