@@ -1,43 +1,37 @@
-const express =require("express");
-const mongoose=require("mongoose");
-const app=express();
-const DataModels=require("./models/Data");
-const cors=require("cors");
+const mongoose = require("mongoose");
+const express = require("express");
+const bodyParser = require("body-parser");
+const UserRoutes = require("./routes/UserRoutes");
 
-app.use(express.json());
-app.use(cors());
+const app = express();
 
-mongoose.connect("mongodb+srv://satishuppala:Rksatish@cluster0.i4hwuhn.mongodb.net/login"
-  ).then(() => {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization,client_host"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "*");
+  res.setHeader(
+    "Access-Control-Expose-Headers",
+    "X-Api-Version, X-Request-Id, X-Response-Time"
+  );
+  res.setHeader("Access-Control-Max-Age", "1000");
+  next();
+});
+
+mongoose.connect("mongodb+srv://satishuppala:Rksatish@cluster0.i4hwuhn.mongodb.net/login")
+  .then(() => {
     console.log('MongoDB connected');
-  }).catch(err => {
+  })
+  .catch(err => {
     console.error('MongoDB connection error', err);
   });
-  
-  app.post("/register",(req,res)=>{
-    DataModels.create(req.body)
-    .then(register=> {
-      console.log(register);
-  return res.json(register)
-  })
-    .catch(err=>res.json(err))
-  })
 
-  app.post("/login",(req,res)=>{
-    DataModels.find(req.body)
-    .then(user=> {
-      console.log(user);
-  return res.json(user)
-  })
-    .catch(err=>res.json(err))
-  })
+app.use(UserRoutes);
 
-  app.use(express.json());
-  
-  app.get('/', (req, res) => {
-    res.send('Welcome to the backend');
-  });
-  
-  app.listen(8000, () => {
-    console.log(`Server is running at http://localhost:8000`);
-  });
+app.listen(8000, () => {
+  console.log(`Server is running at http://localhost:8000`);
+});
