@@ -29,7 +29,6 @@ mongoose.connect("mongodb+srv://satishuppala:Rksatish@cluster0.i4hwuhn.mongodb.n
   .catch(err => {
     console.error('MongoDB connection error', err);
   });
-
 app.use(UserRoutes);
 
 app.listen(8000, () => {

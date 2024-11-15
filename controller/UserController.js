@@ -1,7 +1,10 @@
-const DataModels = require("../User/Data");
+const DataModels = require("../models/User");
+const UserService = require('../services/UserService')
 
 const UserController=function(){
     this.CreateUserController=async(req,res)=>{
+        // const firstname = create(req.body)
+        // const user =await UserService.checkFirstnameExistOrNot({firstname});
         DataModels.create(req.body)
         .then(register=> {
             console.log(register);
@@ -11,12 +14,26 @@ const UserController=function(){
     }
 
     this.CreateUserlogin=async(req,res)=>{
-        DataModels.find(req.body)
-        .then(user=> {
-          console.log(user);
-        return res.json(user)
-        })
-        .catch(err=>res.json(err))
+        const {email,password} = req.body
+        const user = await UserService.checkUserExistOrNot({email,password});
+        if(user.length==0){
+            res.status(400).send({
+                status:400,
+                message:"User Doesn't Exist",
+                data:[]
+            })
+        }
+        else{
+            const token = await UserService.generateToken({id:user._id,email:user.email})
+            res.status(201).send({
+                status:201,
+                message:"Success",
+                data:{
+                    token:token,
+                    user:user
+                }
+            }) 
+        }
     }
 }
 module.exports=new UserController();
