@@ -11,7 +11,7 @@ const DataSchema=new mongoose.Schema({
     },
     email:{
         type:String,
-        default:null
+        unique:true
     },
     mobilenumbercode:{
         type:String,
@@ -19,7 +19,7 @@ const DataSchema=new mongoose.Schema({
     },
     mobilenumber:{
         type:String,
-        default:null
+        unique:true
     },
     password:{
         type:String,

@@ -3,9 +3,28 @@ var jwt = require('jsonwebtoken');
 
 const UserService=function(){
 
-// this.checkFirstnameExistOrNot=async({firstname})=>{
+    this.checkEmailExistOrNot=async(email)=>{
+        return await DataModels.find({
+            email:email
+        })
+    }
+    this.checkMobilenumberExistOrNot=async(mobilenumber)=>{
+        return await DataModels.find({
+            mobilenumber:mobilenumber
+        })
+    }
 
-// }
+    this.checkEmailIdExistOrNot=async(email)=>{
+        return await DataModels.find({
+            email:email
+        })
+    }
+    this.checkPasswordExistOrNot=async(password)=>{
+        return await DataModels.find({
+            password:password
+        })
+    }
+
 
 this.checkUserExistOrNot=async({email,password})=>{
    const user = await DataModels.find({ 
@@ -16,8 +35,10 @@ this.checkUserExistOrNot=async({email,password})=>{
 }
 
 this.generateToken = async({id,email})=>{
-    var token = jwt.sign({id,email }, 'satishsecretkey');
-    return token
+    let token = jwt.sign({id:"satish"}, "token", {
+        expiresIn: "7d",
+      });
+      return token;
 }
 
 }
