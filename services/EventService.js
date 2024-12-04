@@ -12,6 +12,18 @@ const EventService=function(){
         }
     }
 
+    this.deleteEvent = async () => {
+        try {
+          const result = await Event.findByIdAndDelete(id);
+          if (!result) {
+            throw new Error("Event not found");
+          }
+          return { message: "Event deleted successfully", event: result };
+        } catch (err) {
+          console.log("Error deleting event:", err);
+          throw err;
+        }
+      };
 
 }
 

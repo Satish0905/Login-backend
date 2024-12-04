@@ -14,7 +14,12 @@ module.exports=(()=>{
     router.post("/login",UserController.CreateUserlogin);
 
     router.post("/addevent",UserController.Createaddevent);
-    router.get('/events',EventController.getEvents)
+
+    router.get('/events',EventController.getEvents);
+
+    // router.delete('/deleteevent/:id',EventController.deleteEvent);
+
+    // router.put("/updateevent",EventController,updateEvent);
 
     return router;
 })();
